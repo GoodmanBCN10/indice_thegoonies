@@ -259,21 +259,23 @@
         observer.observe(document.getElementById('sentinel'));
 
         function openM(id) {
-            const g = allGames.find(item => String(item.id) === String(id));
-            if (!g) return;
-            const steamBtn = g.steam_url ? `<a href="${g.steam_url}" target="_blank" class="btn btn-s">PÁGINA DE STEAM</a>` : '';
-            document.getElementById('m-body').innerHTML = `
-                <h1 style="color:#fff; margin-top:0; font-size: 2.5rem; letter-spacing: -1px;">${g.title}</h1>
-                <div style="font-size: 0.9rem; color: var(--accent); margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">DISPONIBLE DESDE: ${new Date(g.date).toLocaleDateString()}</div>
-                <div class="desc">${g.description}</div>
-                <div style="margin-top: 40px; display:flex; gap: 15px; align-items:center; flex-wrap: wrap;">
-                    <a href="${g.telegram_url}" target="_blank" class="btn btn-t">ABRIR EN TELEGRAM</a>
-                    ${steamBtn}
-                </div>
-            `;
-            document.getElementById('modal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
+    const g = games.find(item => String(item.id) === String(id));
+    if (!g) return;
+    
+    const steamBtn = g.steam_url ? `<a href="${g.steam_url}" target="_blank" class="btn btn-s">PÁGINA DE STEAM</a>` : '';
+    
+    document.getElementById('m-body').innerHTML = `
+        <h1 style="color:#fff; margin-top:0; font-size: 2.5rem; letter-spacing: -1px;">${g.title}</h1>
+        <div style="font-size: 0.9rem; color: var(--accent); margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">DISPONIBLE DESDE: ${new Date(g.date).toLocaleDateString()}</div>
+        <div class="desc">${g.description}</div>
+        <div style="margin-top: 40px; display:flex; gap: 15px; align-items:center; flex-wrap: wrap;">
+            <a href="${g.telegram_url}" target="_blank" class="btn btn-t">ABRIR EN TELEGRAM</a>
+            ${steamBtn}
+        </div>
+    `;
+    document.getElementById('modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
 
         function closeM() { document.getElementById('modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
         window.onclick = (e) => { if(e.target == document.getElementById('modal')) closeM(); };
