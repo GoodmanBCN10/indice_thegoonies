@@ -267,7 +267,7 @@
                 <div style="font-size: 0.9rem; color: var(--accent); margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">DISPONIBLE DESDE: ${new Date(g.date).toLocaleDateString()}</div>
                 <div class="desc">${g.description}</div>
                 <div style="margin-top: 40px; display:flex; gap: 15px; align-items:center; flex-wrap: wrap;">
-                    <a href="${g.telegram_url}" target="_blank" class="btn btn-t">ABRIR EN TELEGRAM</a>
+                    <a href="${g.telegram_url.replace('https://t.me/', 'tg://resolve?domain=').replace(/\//g, '&post=')}" class="btn btn-t">ABRIR EN TELEGRAM</a>
                     ${steamBtn}
                 </div>
             `;
