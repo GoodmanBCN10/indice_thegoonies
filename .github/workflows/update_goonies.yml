@@ -38,7 +38,7 @@ jobs:
           echo "API_HASH=$TELEGRAM_API_HASH" >> .env
           
           # Decodificar y guardar my_session.session
-          python -c "import os, base64; f=open('src/my_session.session', 'wb'); f.write(base64.b64decode(os.environ['TELEGRAM_SESSION'])); f.close()"
+         echo "TELEGRAM_SESSION=$TELEGRAM_SESSION" >> .env
 
       - name: Ejecutar Actualizacion
         run: |
