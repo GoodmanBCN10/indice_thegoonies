@@ -1,0 +1,13 @@
+[
+    {
+        "id": "THE_GOONIES",
+        "channel_id": "-1002861009856",
+        "topic_id": "36",
+        "name": "The_Goonies",
+        "html": "The_Goonies.html",
+        "db": "database_the_goonies.json",
+        "avatar": "avatar.jpg",
+        "title_main": "INDICE JUEGOS - THE GOONIES OS",
+        "title_sub": "INDICE DE JUEGOS"
+    }
+]
