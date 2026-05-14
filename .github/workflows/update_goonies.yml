@@ -1,0 +1,63 @@
+name: Actualizacion Automatica The Goonies
+
+on:
+  schedule:
+    # Se ejecuta a las 08:00, 14:00 y 20:00 UTC (Equivale a 10:00, 16:00, 22:00 CEST/España en verano)
+    - cron: '0 8,14,20 * * *'
+  workflow_dispatch: # Permite ejecutarlo manualmente desde la web de GitHub
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # Necesario para hacer commit y push
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Restaurar Secretos y Sesion
+        env:
+          TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
+          TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+        run: |
+          # Reconstruir .env
+          echo "API_ID=$TELEGRAM_API_ID" > .env
+          echo "API_HASH=$TELEGRAM_API_HASH" >> .env
+          
+          # Decodificar y guardar my_session.session
+          echo "$TELEGRAM_SESSION" | base64 --decode > src/my_session.session
+
+      - name: Ejecutar Actualizacion
+        run: |
+          python src/auto_update.py
+
+      - name: Preparar index.html
+        run: |
+          # Renombrar/copiar el archivo generado a index.html
+          # Asegurarse de que el archivo se llame como está en channels.json
+          if [ -f "The_Goonies.html" ]; then
+            cp The_Goonies.html index.html
+          else
+            echo "No se encontro The_Goonies.html"
+          fi
+
+      - name: Guardar cambios en GitHub
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          git add data/database_*.json index.html The_Goonies.html || true
+          git commit -m "Actualizacion automatica del catalogo" || echo "No hay cambios para publicar"
+          git push
