@@ -36,33 +36,33 @@ def generate_html(games, avatar_b64, output_name="index.html", title_main="SDCS"
             -webkit-tap-highlight-color: transparent;
         }}
         
-        header {{ 
-            background: linear-gradient(90deg, var(--bg-header) 0%, #1b2838 100%);
-            padding: 30px 60px; display: flex; align-items: center; 
-            justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6); position: sticky; top: 0; z-index: 1000;
+        header {{
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 24px 50px; display: flex; align-items: center;
+            justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky; top: 0; z-index: 1000;
         }}
 
-        .hero-unit {{ display: flex; align-items: center; gap: 35px; }}
-        .avatar-container {{ position: relative; width: 100px; height: 100px; flex-shrink: 0; }}
-        .avatar-container::after {{
-            content: ""; position: absolute; inset: -8px; border: 2px solid var(--accent);
-            border-radius: 18px; box-shadow: 0 0 25px var(--accent-glow);
-            animation: pulse-border 4s infinite ease-in-out;
-        }}
+        .hero-unit {{ display: flex; align-items: center; gap: 24px; }}
+        .avatar-container {{ position: relative; width: 65px; height: 65px; flex-shrink: 0; }}
+        .avatar-container::after {{ display: none; }} /* Removidos los efectos circulares */
 
-        @keyframes pulse-border {{ 0%, 100% {{ opacity: 0.4; transform: scale(1); }} 50% {{ opacity: 1; transform: scale(1.05); }} }}
-        .avatar {{ width: 100%; height: 100%; border-radius: 12px; object-fit: cover; position: relative; z-index: 2; }}
-        .brand-titles {{ display: flex; flex-direction: column; }}
-        .brand-main {{ font-size: 3.2rem; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: -2px; line-height: 0.9; margin: 0; }}
-        .brand-sub {{ font-size: 1.1rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 8px; margin-top: 5px; }}
+        .avatar {{ width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.1); }}
+        
+        .brand-titles {{ display: flex; flex-direction: column; justify-content: center; }}
+        .brand-main {{ font-size: 2.2rem; font-weight: 800; color: #ffffff; text-transform: uppercase; letter-spacing: -0.5px; line-height: 1; margin: 0; }}
+        .brand-sub {{ font-size: 0.95rem; font-weight: 500; color: #8b949e; text-transform: uppercase; letter-spacing: 3px; margin-top: 6px; }}
 
         .stats-badge {{
-            background: rgba(0,0,0,0.5); padding: 15px 35px; border-radius: 12px;
-            border: 1px solid rgba(102, 192, 244, 0.3); text-align: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 24px; border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08); text-align: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }}
-        .stats-count {{ font-size: 1.8rem; font-weight: 900; color: #fff; display: block; }}
-        .stats-label {{ font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; font-weight: 800; }}
+        .stats-count {{ font-size: 1.4rem; font-weight: 800; color: #c9d1d9; display: block; }}
+        .stats-label {{ font-size: 0.65rem; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-top: 4px; }}
 
         .alphabet-container {{ 
             display: flex; justify-content: center; flex-wrap: wrap; 
@@ -89,13 +89,13 @@ def generate_html(games, avatar_b64, output_name="index.html", title_main="SDCS"
         .section-title {{ padding: 20px 60px; font-size: 2rem; font-weight: 900; letter-spacing: 4px; color: #fff; text-transform: uppercase; }}
 
         .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 30px; padding: 10px 60px 60px 60px; }}
-        .card {{ background: var(--card); border-radius: 8px; overflow: hidden; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.05); min-height: 300px; }}
+        .card {{ background: var(--card); border-radius: 8px; overflow: hidden; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.05); min-height: 300px; display: flex; flex-direction: column; }}
         .card:hover {{ transform: scale(1.08) translateY(-10px); border-color: var(--accent); z-index: 10; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }}
-        .img-c {{ width: 100%; aspect-ratio: 2/3; background: #000; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }}
+        .img-c {{ width: 100%; aspect-ratio: 2/3; background: #000; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border-bottom: 1px solid rgba(0,0,0,0.5); }}
         .backdrop {{ position: absolute; width:120%; height:120%; background-size: cover; filter: blur(12px) brightness(0.3); }}
         .card img {{ width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 1; opacity: 0; transition: opacity 0.6s; }}
-        .card-info {{ padding: 15px; background: linear-gradient(transparent, rgba(0,0,0,0.95)); position: absolute; bottom: 0; width: 100%; }}
-        .title {{ font-size: 0.9rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; color: #fff; }}
+        .card-info {{ padding: 15px; background: rgba(0,0,0,0.2); flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }}
+        .title {{ font-size: 0.9rem; font-weight: 700; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; margin: 0; color: #e1e8ed; }}
 
         .modal {{ display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.96); z-index: 2000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(8px); }}
         .m-content {{ background: linear-gradient(135deg, #1b2838 0%, #0b0e14 100%); padding: 50px; border-radius: 15px; max-width: 800px; width: 100%; max-height: 85vh; overflow-y: auto; border: 1px solid var(--accent); position: relative; }}
@@ -108,12 +108,12 @@ def generate_html(games, avatar_b64, output_name="index.html", title_main="SDCS"
 
         /* --- RESPONSIVE MOBILE RULES --- */
         @media (max-width: 768px) {{
-            header {{ padding: 20px; flex-direction: column; gap: 20px; text-align: center; }}
-            .hero-unit {{ flex-direction: column; gap: 15px; }}
-            .avatar-container {{ width: 80px; height: 80px; }}
-            .brand-main {{ font-size: 2.2rem; }}
-            .brand-sub {{ font-size: 0.8rem; letter-spacing: 4px; }}
-            .stats-badge {{ padding: 10px 20px; width: 100%; }}
+            header {{ padding: 20px; flex-direction: column; gap: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }}
+            .hero-unit {{ flex-direction: column; gap: 12px; }}
+            .avatar-container {{ width: 55px; height: 55px; }}
+            .brand-main {{ font-size: 1.8rem; }}
+            .brand-sub {{ font-size: 0.8rem; letter-spacing: 2px; }}
+            .stats-badge {{ padding: 10px 20px; width: 100%; border-radius: 6px; }}
             
             .alphabet-container {{ padding: 15px 10px; gap: 5px; }}
             .letter-btn {{ padding: 10px 12px; font-size: 1rem; flex: 1 1 15%; }}
@@ -205,6 +205,7 @@ def generate_html(games, avatar_b64, output_name="index.html", title_main="SDCS"
 
         function setCategory(cat) {{
             currentCategory = cat;
+            document.getElementById('search').value = '';
             document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
             if(cat !== 'HOME' && cat !== 'NUM' && cat !== 'SYM') {{
                 const activeBtn = Array.from(document.querySelectorAll('.letter-btn')).find(b => b.innerText === cat);
@@ -224,7 +225,23 @@ def generate_html(games, avatar_b64, output_name="index.html", title_main="SDCS"
         function renderInitial() {{
             const term = document.getElementById('search').value.toLowerCase();
             const sortBy = document.getElementById('sort').value;
-            if (currentCategory === 'HOME') {{
+            if (term) {{
+                backBtn.style.display = 'block';
+                viewTitle.innerText = `RESULTADOS DE BÚSQUEDA: "${{term.toUpperCase()}}"`;
+                filteredGames = allGames.filter(g => {{
+                    // Si solo hay 1 o 2 letras, busca SOLO en el título para que los resultados sean precisos desde la primera letra
+                    if (term.length < 3) {{
+                        return g.title.toLowerCase().includes(term);
+                    }}
+                    // A partir de 3 letras, busca en título y descripción
+                    return g.title.toLowerCase().includes(term) || g.description.toLowerCase().includes(term);
+                }});
+                filteredGames.sort((a, b) => {{
+                    if (sortBy === 'name-asc') return a.title.localeCompare(b.title);
+                    return new Date(b.date) - new Date(a.date);
+                }});
+                document.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
+            }} else if (currentCategory === 'HOME') {{
                 viewTitle.innerText = "PUBLICACIONES RECIENTES";
                 backBtn.style.display = 'none';
                 filteredGames = getRecentDatesGames();
@@ -235,8 +252,6 @@ def generate_html(games, avatar_b64, output_name="index.html", title_main="SDCS"
                 filteredGames = allGames.filter(g => {{
                     const title = g.title.toUpperCase();
                     const firstChar = title.charAt(0);
-                    const matchSearch = g.title.toLowerCase().includes(term) || g.description.toLowerCase().includes(term);
-                    if (!matchSearch) return false;
                     if (currentCategory === 'NUM') return /[0-9]/.test(firstChar);
                     if (currentCategory === 'SYM') return /[^A-Z0-9]/.test(firstChar);
                     return firstChar === currentCategory;
