@@ -9,16 +9,5 @@
         "avatar": "avatar.jpg",
         "title_main": "INDICE JUEGOS - THE GOONIES OS",
         "title_sub": "INDICE DE JUEGOS"
-    },
-    {
-        "id": "ME_GUSTA_LEER",
-        "channel_id": "-1002923573607",
-        "topic_id": "0",
-        "name": "Me_Gusta_Leer",
-        "html": "mgl.html",
-        "db": "database_mgl.json",
-        "avatar": "avatar.jpg",
-        "title_main": "INDICE ME GUSTA LEER",
-        "title_sub": "El canal con todas las novedades en formato EPUB"
     }
 ]
