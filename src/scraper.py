@@ -17,8 +17,12 @@ from ui import generate_html
 load_dotenv()
 API_ID = os.getenv('API_ID')
 API_HASH = os.getenv('API_HASH')
+SESSION_STRING = os.getenv('TELEGRAM_SESSION')
 
-app = Client("my_session", api_id=API_ID, api_hash=API_HASH)
+if SESSION_STRING:
+    app = Client("my_session", session_string=SESSION_STRING, api_id=API_ID, api_hash=API_HASH)
+else:
+    app = Client("my_session", api_id=API_ID, api_hash=API_HASH)
 
 def format_channel_id(cid):
     if not cid: return None

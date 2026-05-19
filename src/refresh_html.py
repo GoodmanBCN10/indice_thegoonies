@@ -21,10 +21,10 @@ def refresh():
         games = json.load(f)
 
     # Importamos la función de generación del scraper original para mantener el diseño
-    from scraper import generate_portable_html
+    from ui import generate_html
     
     avatar_b64 = get_avatar_b64()
-    generate_portable_html(games, avatar_b64)
+    generate_html(games, avatar_b64)
     
     size_mb = os.path.getsize('index.html') / (1024 * 1024)
     print(f"✨ ¡LISTO! Tu nuevo index.html pesa solo {size_mb:.2f} MB.")

@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+.venv
+venv/
+env/
+engine/
+
+SECRETO_A_COPIAR.txt
+*.session
+*.session-journal

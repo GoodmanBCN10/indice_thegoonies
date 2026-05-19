@@ -1,47 +1,39 @@
+import asyncio
 import os
-import base64
+from hydrogram import Client
+from dotenv import load_dotenv
 
-def main():
+async def main():
     print("======================================================")
     print("       PREPARACION DE SECRETS PARA GITHUB ACTIONS")
     print("======================================================\n")
+    print("Extrayendo clave segura de sesion...")
 
-    # 1. Sesion de Telegram
-    session_file = "my_session.session"
-    if not os.path.exists(session_file):
-        # A veces se guarda en src/
-        session_file = os.path.join("src", "my_session.session")
-        if not os.path.exists(session_file):
-            print(f"❌ ERROR: No se encuentra el archivo my_session.session.")
-            print("Asegúrate de ejecutar run.bat y configurar tu cuenta de Telegram primero.")
-            return
-
-    with open(session_file, "rb") as f:
-        session_data = f.read()
+    load_dotenv()
+    api_id = os.getenv('API_ID')
+    api_hash = os.getenv('API_HASH')
     
-    session_b64 = base64.b64encode(session_data).decode('utf-8')
-
-    print("Copia el siguiente texto y pégalo en GitHub Secrets con el nombre: TELEGRAM_SESSION\n")
-    print("-" * 60)
-    print(session_b64)
-    print("-" * 60)
-    print("\n")
-
-    # 2. .env file
-    env_file = ".env"
-    if os.path.exists(env_file):
-        with open(env_file, "r") as f:
-            env_content = f.read()
-        print("Copia los valores de tu .env a los siguientes Secrets:")
-        print("TELEGRAM_API_ID = (El numero que tienes en API_ID)")
-        print("TELEGRAM_API_HASH = (El texto que tienes en API_HASH)")
-        print("\nContenido actual de tu .env para referencia:")
-        print(env_content)
-    else:
-        print("❌ No se encontró el archivo .env")
-
-    print("\nProceso terminado. Presiona enter para salir.")
+    session_name = "my_session"
+    if not os.path.exists("my_session.session") and os.path.exists("src/my_session.session"):
+        session_name = "src/my_session"
+        
+    try:
+        app = Client(session_name, api_id=api_id, api_hash=api_hash)
+        await app.start()
+        string_session = await app.export_session_string()
+        await app.stop()
+        
+        with open("SECRETO_A_COPIAR.txt", "w") as f:
+            f.write(string_session)
+            
+        print("\n¡EXITO! He creado un archivo llamado SECRETO_A_COPIAR.txt en esta carpeta.")
+        print("Abre ese archivo, selecciona TODO el texto (es solo una linea larga) y pegalo en GitHub como TELEGRAM_SESSION.")
+        
+    except Exception as e:
+        print(f"\n❌ ERROR: {e}")
+        
+    print("\nPresiona Enter para salir...")
     input()
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
