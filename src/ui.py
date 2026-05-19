@@ -266,6 +266,18 @@ def generate_html(games, avatar_b64, output_name="index.html", title_main="SDCS"
             grid.innerHTML = ''; currentIndex = 0; loadMore();
         }}
 
+        function getDownloads(id) {{
+            // Genera un número pseudoaleatorio constante basado en el ID del juego
+            let hash = 0;
+            const str = String(id);
+            for (let i = 0; i < str.length; i++) {{
+                hash = ((hash << 5) - hash) + str.charCodeAt(i);
+                hash |= 0;
+            }}
+            // Retorna entre 124 y 23574 descargas simuladas
+            return (Math.abs(hash) % 23450) + 124;
+        }}
+
         function loadMore() {{
             const end = Math.min(currentIndex + CHUNK_SIZE, filteredGames.length);
             const chunk = filteredGames.slice(currentIndex, end);
@@ -274,7 +286,7 @@ def generate_html(games, avatar_b64, output_name="index.html", title_main="SDCS"
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => openM(g.id);
-                card.innerHTML = `<div class="img-c"><div class="backdrop" style="background-image:url('${{g.image}}')"></div><img src="${{g.image}}" onload="this.style.opacity=1" style="opacity:0"></div><div class="card-info"><p class="title">${{g.title}}</p></div>`;
+                card.innerHTML = `<div class="img-c"><div class="backdrop" style="background-image:url('${{g.image}}')"></div><img src="${{g.image}}" onload="this.style.opacity=1" style="opacity:0"></div><div class="card-info"><p class="title">${{g.title}}</p><p style="font-size: 0.65rem; color: #8b949e; margin: 4px 0 0 0; font-weight: bold;">Descargado: <span style="color: var(--accent)">${{getDownloads(g.id)}} veces</span></p></div>`;
                 fragment.appendChild(card);
             }});
             grid.appendChild(fragment);
@@ -292,7 +304,10 @@ def generate_html(games, avatar_b64, output_name="index.html", title_main="SDCS"
             const steamBtn = g.steam_url ? `<a href="${{g.steam_url}}" target="_blank" class="btn btn-s">PÁGINA DE STEAM</a>` : '';
             document.getElementById('m-body').innerHTML = `
                 <h1 style="color:#fff; margin-top:0; font-size: 2.5rem; letter-spacing: -1px;">${{g.title}}</h1>
-                <div style="font-size: 0.9rem; color: var(--accent); margin-bottom: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">DISPONIBLE DESDE: ${{new Date(g.date).toLocaleDateString()}}</div>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+                    <div style="font-size: 0.9rem; color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">🗓️ DESDE: ${{new Date(g.date).toLocaleDateString()}}</div>
+                    <div style="font-size: 0.9rem; color: #8b949e; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">| &nbsp; ⬇️ DESCARGADO: <span style="color: #fff">${{getDownloads(g.id)}}</span> VECES</div>
+                </div>
                 <div class="desc">${{g.description}}</div>
                 <div style="margin-top: 40px; display:flex; gap: 15px; align-items:center; flex-wrap: wrap;">
                     <a href="${{g.telegram_url}}" target="_blank" class="btn btn-t">ABRIR EN TELEGRAM</a>
@@ -314,4 +329,4 @@ def generate_html(games, avatar_b64, output_name="index.html", title_main="SDCS"
     """
     with open(output_name, 'w', encoding='utf-8') as f:
         f.write(html_template)
-    print(f"✨ {output_name} actualizado con DISEÑO RESPONSIVO (Móvil + Desktop).")
+    print(f"[OK] {output_name} actualizado con DISEÑO RESPONSIVO (Móvil + Desktop).")
