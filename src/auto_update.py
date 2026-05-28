@@ -48,7 +48,15 @@ def main():
         # Ejecutar el scraper original
         subprocess.run(args)
         
+        # Sincronizar automáticamente con index.html
+        html_name = c.get('html', '')
+        if html_name and os.path.exists(html_name):
+            import shutil
+            shutil.copyfile(html_name, "index.html")
+            print(f"📢 Sincronizado {html_name} con index.html")
+        
     print("\n[+] Proceso automatico completado.")
+
 
 if __name__ == "__main__":
     main()
