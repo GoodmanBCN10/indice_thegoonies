@@ -3,6 +3,10 @@ import os
 import sys
 import asyncio
 
+# Fix for Windows CMD encoding
+sys.stdout.reconfigure(encoding='utf-8')
+
+
 CHANNELS_PATH = os.path.join('data', 'channels.json')
 TEMP_PATH = os.path.join('data', '.selection.tmp')
 ENV_PATH = '.env'

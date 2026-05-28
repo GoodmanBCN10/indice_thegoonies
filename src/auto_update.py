@@ -3,6 +3,9 @@ import os
 import subprocess
 import sys
 
+# Fix for Windows CMD encoding
+sys.stdout.reconfigure(encoding='utf-8')
+
 def main():
     # Asegurarnos de que estamos en la carpeta raíz
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

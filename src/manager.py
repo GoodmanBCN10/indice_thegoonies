@@ -2,6 +2,9 @@ import json
 import os
 import sys
 
+# Fix for Windows CMD encoding
+sys.stdout.reconfigure(encoding='utf-8')
+
 CHANNELS_PATH = os.path.join('data', 'channels.json')
 TEMPLATE_DIR = 'template'
 

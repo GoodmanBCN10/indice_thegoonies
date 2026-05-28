@@ -10,6 +10,9 @@ from PIL import Image
 from hydrogram import Client
 from dotenv import load_dotenv
 
+# Fix for Windows CMD encoding
+sys.stdout.reconfigure(encoding='utf-8')
+
 # Asegurar que se encuentre el modulo ui.py en la misma carpeta
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from ui import generate_html
