@@ -2,8 +2,8 @@ name: Actualizacion Automatica The Goonies
 
 on:
   schedule:
-    # Ejecuta a las 07:10, 11:10, 15:10, 19:10 y 23:10 (hora de España)
-    - cron: '10 5,9,13,17,21 * * *'
+    # Ejecuta a las 07:20, 11:20, 15:20, 19:20 y 23:20 (hora de España)
+    - cron: '20 5,9,13,17,21 * * *'
 
   workflow_dispatch: # Permite ejecutarlo manualmente desde la web de GitHub
 
