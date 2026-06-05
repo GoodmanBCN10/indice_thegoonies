@@ -1,4 +1,3 @@
-import json
 import os
 import subprocess
 import sys
@@ -11,56 +10,20 @@ def main():
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     os.chdir(root_dir)
 
-    channels_path = os.path.join('data', 'channels.json')
-    if not os.path.exists(channels_path):
-        print("❌ No hay canales configurados en data/channels.json")
-        return
+    print("======================================================")
+    print("       INICIANDO ACTUALIZACION AUTOMATICA (NUEVO INDICE)")
+    print("======================================================")
 
-    try:
-        with open(channels_path, 'rb') as f:
-            content = f.read().decode('utf-8-sig').strip()
-            channels = json.loads(content) if content else []
-    except Exception as e:
-        print(f"❌ Error leyendo channels.json: {e}")
-        return
+    # 1. Ejecutar el script generador
+    print("\nEjecutando generar_indice.py...")
+    subprocess.run([sys.executable, "generar_indice.py"])
 
-    print(f"======================================================")
-    print(f"       INICIANDO ACTUALIZACION AUTOMATICA ({len(channels)} canales)")
-    print(f"======================================================")
-
-    scraper_path = os.path.join('src', 'scraper.py')
-    py_engine = sys.executable
-
-    for idx, c in enumerate(channels):
-        print(f"\n[{idx+1}/{len(channels)}] ACTUALIZANDO: {c.get('name', 'Desconocido')}")
-        args = [
-            py_engine,
-            scraper_path,
-            str(c.get('channel_id', '')),
-            str(c.get('topic_id', '0')),
-            str(c.get('db', '')),
-            str(c.get('html', '')),
-            str(c.get('title_main', '')),
-            str(c.get('title_sub', '')),
-            str(c.get('avatar', 'avatar.jpg'))
-        ]
-        
-        # Ejecutar el scraper original
-        subprocess.run(args)
-        
-        # Sincronizar automáticamente con index.html
-        html_name = c.get('html', '')
-        if html_name and os.path.exists(html_name):
-            import shutil
-            shutil.copyfile(html_name, "index.html")
-            print(f"📢 Sincronizado {html_name} con index.html")
-        
-    # Guardar cambios y subir a GitHub de forma automática
+    # 2. Guardar cambios y subir a GitHub de forma automática
     if os.path.exists('.git'):
         print("\n📤 Subiendo cambios a GitHub desde el VPS...")
         try:
             # Añadir archivos al commit
-            subprocess.run(["git", "add", "data/database_the_goonies.json", "index.html", "The_Goonies.html"], check=True)
+            subprocess.run(["git", "add", "indice_juegos.json", "index.html"], check=True)
             
             # Crear commit con un autor personalizado
             commit_process = subprocess.run([
@@ -77,13 +40,11 @@ def main():
                 if push_process.returncode == 0:
                     print("🚀 ¡Cambios subidos a GitHub y publicados en la web con éxito!")
                 else:
-                    print(f"❌ Error en git push: {push_process.stderr}")
+                    print(f"❌ Error en git push:\n{push_process.stderr}")
         except Exception as e:
             print(f"❌ Error al sincronizar con GitHub: {e}")
 
     print("\n[+] Proceso automatico completado.")
-
-
 
 if __name__ == "__main__":
     main()
