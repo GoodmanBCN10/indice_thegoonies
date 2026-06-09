@@ -268,8 +268,8 @@ def generate_html(items):
         <div class="header-content">
             <img src="template/avatar.jpg" alt="Logo" class="header-logo" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAADIAQMAAAAwS4omAAAAA1BMVEWAgICQdD0xAAAANUlEQVR42u3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB8GzXDAAHTSjU2AAAAAElFTkSuQmCC'">
             <div class="header-text">
-                <h1>BIBLIOTECA - JUEGOS</h1>
-                <div class="subtitle">Catálogo actualizado de Switch</div>
+                <h1>BIBLIOTECA - JUEGOS SWITCH ES - THE GOONIES OS</h1>
+                <div class="subtitle">Catálogo actualizado para tu Switch</div>
             </div>
         </div>
         <div class="search-container">
