@@ -268,9 +268,12 @@ def generate_html(items):
         <div class="header-content">
             <img src="template/avatar.jpg" alt="Logo" class="header-logo" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAADIAQMAAAAwS4omAAAAA1BMVEWAgICQdD0xAAAANUlEQVR42u3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB8GzXDAAHTSjU2AAAAAElFTkSuQmCC'">
             <div class="header-text">
-                <h1>BIBLIOTECA - JUEGOS SWITCH ES - THE GOONIES OS</h1>
-                <div class="subtitle">Catálogo actualizado para tu Switch</div>
+                <h1>Biblioteca de juegos Switch ES - The Goonies OS</h1>
+                <div class="subtitle">Últimas novedades en juegos para tu Switch</div>
             </div>
+        </div>
+        <div style="margin-top: 15px; font-size: 0.95rem; text-align: center;">
+            Únete a nuestro grupo de Telegram: <a href="https://t.me/+4xc56RbThMg2YjVk" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 500;">https://t.me/+4xc56RbThMg2YjVk</a>
         </div>
         <div class="search-container">
             <input type="text" id="search" placeholder="Buscar por título o palabra clave...">
