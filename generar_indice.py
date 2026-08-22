@@ -22,6 +22,12 @@ TOPIC_ID = 36
 HTML_OUTPUT = "index.html"
 DB_FILE = "indice_juegos.json"
 
+try:
+    loop = asyncio.get_running_loop()
+except RuntimeError:
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
 if SESSION_STRING:
     app = Client("my_session", session_string=SESSION_STRING, api_id=API_ID, api_hash=API_HASH)
 else:
@@ -68,6 +74,17 @@ def generate_html(items):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Juegos</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JW7GSTB35V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+
+      gtag('config', 'G-JW7GSTB35V');
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
     <style>
         :root {{
@@ -273,7 +290,7 @@ def generate_html(items):
             </div>
         </div>
         <div style="margin-top: 15px; font-size: 0.95rem; text-align: center;">
-            Únete a nuestro grupo de Telegram: <a href="https://t.me/+4xc56RbThMg2YjVk" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 500;">https://t.me/+4xc56RbThMg2YjVk</a>
+            Únete a nuestro grupo de Telegram: <a href="https://t.me/+4xc56RbThMg2YjVk" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 500;" onclick="if(typeof gtag === 'function') gtag('event', 'click_grupo_telegram');">https://t.me/+4xc56RbThMg2YjVk</a>
         </div>
         <div class="search-container">
             <input type="text" id="search" placeholder="Buscar por título o palabra clave...">
@@ -391,17 +408,33 @@ def generate_html(items):
             grid.appendChild(fragment);
         }}
 
+        function trackTelegramClick(title) {{
+            if (typeof gtag === 'function') {{
+                gtag('event', 'click_telegram', {{
+                    'juego_titulo': title
+                }});
+            }}
+        }}
+
         function openM(id) {{
             const g = allItems.find(item => String(item.id) === String(id));
             if (!g) return;
+            
+            if (typeof gtag === 'function') {{
+                gtag('event', 'click_imagen', {{
+                    'juego_titulo': g.title
+                }});
+            }}
+            
             document.getElementById('m-body').innerHTML = `
                 <h1 style="color:#fff; margin-top:0; font-size: 2.5rem; letter-spacing: -1px;">${{g.title}}</h1>
                 <div style="font-size: 0.9rem; color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">🗓️ DESDE: ${{new Date(g.date).toLocaleDateString()}}</div>
                 <div class="desc">${{g.description}}</div>
                 <div style="margin-top: 40px;">
-                    <a href="${{g.telegram_url}}" target="_blank" class="btn btn-t">ABRIR EN TELEGRAM</a>
+                    <a href="${{g.telegram_url}}" target="_blank" class="btn btn-t" id="btn-telegram">ABRIR EN TELEGRAM</a>
                 </div>
             `;
+            document.getElementById('btn-telegram').onclick = function() {{ trackTelegramClick(g.title); }};
             document.getElementById('modal').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }}
